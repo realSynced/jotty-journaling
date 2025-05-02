@@ -1,103 +1,56 @@
 import Image from "next/image";
+import Link from "next/link";
+import { images } from "@/assets/images";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="grid grid-rows-[1fr] min-h-screen relative bg-jotty-cream">
+      {/* Main content container with beach background */}
+      <div className="m-4 h-[calc(100vh-2rem)] rounded-3xl overflow-hidden relative ">
+        {/* Beach background image */}
+        <div className="absolute inset-0 overflow-hidden  rounded-3xl w-5/6 mx-auto">
+          <Image
+            src={images.DefaultBackground}
+            alt="Beach background"
+            fill
+            // sizes="100vw"
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            quality={100}
+            priority
+            style={{
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
+            className="rounded-3xl "
+          />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        {/* Cream overlay with 25% opacity */}
+        <div
+          className="absolute inset-0 rounded-3xl"
+          style={{ backgroundColor: "#FEFAE0", opacity: 0.15 }}
+        ></div>
+
+        {/* Content overlay with logo and button */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          {/* Logo text with very thin black outline and caramel fill */}
+          <h1
+            className="text-9xl font-bold text-caramel"
+            style={{
+              // color: "#D4A373",
+              WebkitTextStroke: "0.05px black",
+              textShadow: "0 0 2px rgba(0, 0, 0, 0.5)",
+            }}
+          >
+            jotty
+          </h1>
+
+          {/* "lets go" button */}
+          <button className="mt-8 px-8 py-2 border border-black  bg-spring rounded-xl text-2xl text-[#1E1E1E] font-semibold  shadow-lg hover:bg-spring-dark transition-colors duration-300 hover:cursor-pointer">
+            lets go
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

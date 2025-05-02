@@ -20,6 +20,7 @@ Journaling is a great way to clear your mental space and help you relax, and thr
 - React 19
 - Tailwind CSS 4
 - Supabase
+- Railway
 - TypeScript
 
 ## Getting Started

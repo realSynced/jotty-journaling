@@ -1,26 +1,43 @@
 @import "tailwindcss";
 
+@theme {
+  --color-sage: #ccd5ae;
+  --color-spring: #e9edc9;
+  --color-cream: #fefae0;
+  --color-honey: #faedcd;
+  --color-caramel: #d4a373;
+}
+
 :root {
-  --background: #ffffff;
+  /* Jotty color palette */
+  --jotty-sage: #ccd5ae;
+  --jotty-spring: #e9edc9;
+  --jotty-spring-dark: #b2b59b;
+  --jotty-cream: #fefae0;
+  --jotty-honey: #faedcd;
+  --jotty-caramel: #d4a373;
+
+  /* Primary theme colors */
+  --background: var(--jotty-cream);
   --foreground: #171717;
+
+  /* Component specific colors */
+  --accent-bg: var(--jotty-spring);
+  --accent-highlight: var(--jotty-sage);
+  --button-primary: var(--jotty-caramel);
+  --card-bg: var(--jotty-honey);
+
+  /* Font family */
+  --font-itim: "Itim", cursive;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-itim);
 }
