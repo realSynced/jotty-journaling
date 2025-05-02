@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { images } from "@/assets/images";
 import { InterestsModal } from "@/app/ui/components/Onboarding";
+import MusicPlayer from "./ui/components/MusicPlayer";
 
 export const backgrounds = [
   { key: "default", label: "Beach Day" },
@@ -39,12 +40,12 @@ export default function Home() {
   // Determine which background image to use
   const backgroundImage =
     selectedBackground === "default"
-      ? images.DefaultBackground
+      ? images.DefaultBackground4
       : images[`DefaultBackground${selectedBackground}` as keyof typeof images];
 
   return (
     <div className="min-h-screen relative bg-cream flex justify-center items-center">
-      <div className="h-[calc(100vh-2rem)] rounded-3xl overflow-hidden relative w-[100%]">
+      <div className="w-[100%] h-[calc(100vh-2rem)] rounded-3xl overflow-hidden relative">
         {/* Background image */}
         <div className="absolute inset-0 overflow-hidden rounded-3xl mx-auto w-3/4">
           <Image
@@ -83,7 +84,7 @@ export default function Home() {
               {jottyText.split("").map((char, index) => (
                 <span
                   key={index}
-                  className={`text-caramel transition-opacity duration-500`}
+                  className={`text-caramel transition-opacity duration-500 select-none`}
                   style={{
                     WebkitTextStroke: "0.05px black",
                     textShadow: "0 0 2px rgba(0, 0, 0, 0.5)",
@@ -107,7 +108,7 @@ export default function Home() {
           {/* "lets go" button with fade out */}
           <button
             onClick={handleButtonClick}
-            className={`mt-8 px-8 py-2 border border-black bg-spring rounded-xl text-2xl 
+            className={`select-none mt-8 px-8 py-2 border border-black bg-spring rounded-xl text-2xl 
                       text-[#1E1E1E] font-semibold shadow-lg hover:bg-honey 
                       transition-all duration-500 hover:cursor-pointer ${
                         animationState !== "initial"
@@ -130,18 +131,22 @@ export default function Home() {
           <InterestsModal />
         </div>
 
+        {/* Music Player - fixed in bottom left */}
+        {/* <div className="absolute bottom-4 left-4 z-10 w-64">
+          <MusicPlayer />
+        </div> */}
+
         {/* Background select menu */}
         <div
-          className={`absolute bottom-4 right-4 z-10 transition-opacity duration-500 ${
-            animationState !== "initial"
-              ? "opacity-0 pointer-events-none"
-              : "opacity-100"
-          }`}
+          className={`absolute bottom-4 right-4 z-10 transition-opacity duration-500 flex flex-col justify-center items-center`}
         >
+          <div className="mb-4">
+            <MusicPlayer />
+          </div>
           <select
             value={selectedBackground}
             onChange={handleBackgroundChange}
-            className="bg-honey bg-opacity-80 text-caramel border border-jotty-caramel rounded-lg px-3 py-1.5 text-sm font-medium appearance-none cursor-pointer shadow-md focus:outline-none focus:ring-2 focus:ring-jotty-spring"
+            className="w-max bg-honey bg-opacity-80 text-caramel border border-jotty-caramel rounded-lg px-3 py-1.5 text-sm font-medium appearance-none cursor-pointer shadow-md focus:outline-none focus:ring-2 focus:ring-jotty-spring"
             style={{
               backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23D4A373'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
               backgroundRepeat: "no-repeat",
