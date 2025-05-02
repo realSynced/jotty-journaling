@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { images } from "@/assets/images";
-import { InterestsModal } from "@/app/ui/components/Onboarding";
+import OnboardingModal from "@/app/ui/components/Onboarding";
 import MusicPlayer from "./ui/components/MusicPlayer";
 
 const backgrounds = [
@@ -128,7 +128,7 @@ export default function Home() {
               : "opacity-0 pointer-events-none"
           }`}
         >
-          <InterestsModal />
+          <OnboardingModal />
         </div>
 
         {/* Music Player - fixed in bottom left */}
@@ -146,7 +146,7 @@ export default function Home() {
           <select
             value={selectedBackground}
             onChange={handleBackgroundChange}
-            className="w-max bg-honey bg-opacity-80 text-caramel border border-jotty-caramel rounded-lg px-3 py-1.5 text-sm font-medium appearance-none cursor-pointer shadow-md focus:outline-none focus:ring-2 focus:ring-jotty-spring"
+            className="w-max bg-honey bg-opacity-80 text-caramel border border-caramel rounded-lg px-3 py-1.5 text-sm font-medium appearance-none cursor-pointer shadow-md focus:outline-none focus:ring-2 focus:ring-spring"
             style={{
               backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23D4A373'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
               backgroundRepeat: "no-repeat",

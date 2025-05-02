@@ -106,7 +106,7 @@ export default function MusicPlayer() {
       <button
         onClick={toggleExpanded}
         className={`absolute bg-cream rounded-full p-3 shadow-lg border-2 ${
-          isPlaying ? "border-jotty-caramel" : "border-red-400"
+          isPlaying ? "border-caramel" : "border-red-400"
         } hover:bg-honey transition-colors duration-300`}
         style={{ bottom: isExpanded ? "220px" : "0px" }}
         aria-label="Toggle music player"
@@ -207,7 +207,7 @@ export default function MusicPlayer() {
           <select
             value={currentSong.id}
             onChange={handleSongChange}
-            className="w-full bg-honey bg-opacity-80 text-caramel border border-jotty-caramel rounded-lg px-3 py-1.5 text-sm font-medium appearance-none cursor-pointer shadow-md focus:outline-none focus:ring-2 focus:ring-jotty-spring"
+            className="w-full bg-honey bg-opacity-80 text-caramel border border-caramel rounded-lg px-3 py-1.5 text-sm font-medium appearance-none cursor-pointer shadow-md focus:outline-none focus:ring-2 focus:ring-spring"
             style={{
               backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23D4A373'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
               backgroundRepeat: "no-repeat",
