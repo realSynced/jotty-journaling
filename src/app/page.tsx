@@ -5,7 +5,7 @@ import { images } from "@/assets/images";
 import { InterestsModal } from "@/app/ui/components/Onboarding";
 import MusicPlayer from "./ui/components/MusicPlayer";
 
-export const backgrounds = [
+const backgrounds = [
   { key: "default", label: "Beach Day" },
   { key: "1", label: "Mountain View" },
   { key: "2", label: "Forest Path" },
