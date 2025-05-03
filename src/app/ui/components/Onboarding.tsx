@@ -1,7 +1,7 @@
 "use client";
 
-import { q } from "framer-motion/client";
 import { useState } from "react";
+import { signup, login } from "@/app/login/action";
 
 export default function OnboardingModal() {
   const [interests, setInterests] = useState<string>("");
@@ -11,10 +11,46 @@ export default function OnboardingModal() {
   const [personalized, setPersonalized] = useState<boolean>(false);
   const [disabled, setDisabled] = useState<boolean>(false);
   const [submitted, setSubmitted] = useState<boolean>(false);
+  const [interestsError, setInterestsError] = useState<string>("");
+  const [goalsError, setGoalsError] = useState<string>("");
+  const [error, setError] = useState<{
+    email: string;
+    username: string;
+    password: string;
+  } | null>(null);
 
   const [email, setEmail] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
+  async function validateQuestion() {
+    switch (questionNumber) {
+      case 1:
+        if (!interests) {
+          setInterestsError("Please enter your interests.");
+          return false;
+        }
+        if (!goals) {
+          setGoalsError("Please enter your goals.");
+          return false;
+        }
+        if (interests.length < 10) {
+          setInterestsError("Interests must be at least 10 characters long.");
+          return false;
+        }
+        if (goals.length < 10) {
+          setGoalsError("Goals must be at least 10 characters long.");
+          return false;
+        }
+        return true;
+      case 2:
+        return !!interests && !!goals;
+      case 3:
+        return !!interests && !!goals;
+      default:
+        return false;
+    }
+  }
 
   async function backQuestion() {
     if (questionNumber <= 1) return;
@@ -25,6 +61,16 @@ export default function OnboardingModal() {
     }
   }
   async function nextQuestion() {
+    if (!(await validateQuestion())) {
+      console.log("validation failed");
+      return;
+    }
+    if (questionNumber === 3) {
+      if (await validateQuestion()) {
+        await handleSignUp();
+      }
+      return;
+    }
     setQuestionNumber(questionNumber + 1);
     if (questionNumber === 1) {
       setTimeout(() => {
@@ -38,6 +84,18 @@ export default function OnboardingModal() {
     }
   }
 
+  async function handleSignUp() {
+    console.log("Signing up with:", { email, username, password });
+    setDisabled(true);
+    setSubmitted(true);
+
+    // Call the signup function with the provided email, username, and password
+    await signup(undefined, email, password, username, interests, goals);
+
+    // After successful signup, you can redirect or perform any other action
+    // For example, redirect to the journal page
+  }
+
   return (
     <OnboardingParent
       questionNumber={questionNumber}
@@ -45,11 +103,33 @@ export default function OnboardingModal() {
       backQuestion={backQuestion}
       nextQuestion={nextQuestion}
     >
-      {questionNumber === 1 && <InterestsModal />}
+      {questionNumber === 1 && (
+        <InterestsModal
+          {...{
+            interests,
+            setInterests,
+            goals,
+            setGoals,
+            interestsError,
+            goalsError,
+            setInterestsError,
+            setGoalsError,
+          }}
+        />
+      )}
       {questionNumber === 2 && <PersonalizingModal />}
       {questionNumber === 3 && (
         <SignUpModal
-          {...{ email, username, password, setEmail, setUsername, setPassword }}
+          {...{
+            email,
+            username,
+            password,
+            setEmail,
+            setUsername,
+            setPassword,
+            error,
+            setError,
+          }}
         />
       )}
     </OnboardingParent>
@@ -89,14 +169,32 @@ function OnboardingParent({
             disabled ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
-          Continue
+          {questionNumber === 3 ? "Sign Up" : "Continue"}
         </button>
       </div>
     </div>
   );
 }
 
-function InterestsModal() {
+function InterestsModal({
+  interests,
+  goals,
+  setGoals,
+  setInterests,
+  interestsError = "",
+  goalsError = "",
+  setInterestsError,
+  setGoalsError,
+}: {
+  interests?: string;
+  goals?: string;
+  setGoals?: (value: string) => void;
+  setInterests?: (value: string) => void;
+  interestsError?: string;
+  goalsError?: string;
+  setInterestsError?: (value: string) => void;
+  setGoalsError?: (value: string) => void;
+}) {
   return (
     <div className="flex flex-col">
       <h2 className="text-3xl font-bold text-caramel mb-6 text-center">
@@ -110,7 +208,16 @@ function InterestsModal() {
           <textarea
             className="resize-none w-full p-3 border border-jotty-sage rounded-lg focus:ring-2 focus:ring-jotty-caramel focus:border-transparent"
             rows={3}
+            value={interests}
+            onChange={(e) => {
+              setInterests?.(e.target.value);
+              setInterestsError?.(""); // Clear error on change
+            }}
+            maxLength={200}
           />
+          {interestsError && (
+            <p className="text-red-500 -mt-2">{interestsError}</p>
+          )}
         </div>
         <div className="space-y-2">
           <p className="text-lg font-medium text-caramel">
@@ -119,7 +226,14 @@ function InterestsModal() {
           <textarea
             className="resize-none w-full p-3 border border-jotty-sage rounded-lg focus:ring-2 focus:ring-jotty-caramel focus:border-transparent"
             rows={3}
+            value={goals}
+            onChange={(e) => {
+              setGoals?.(e.target.value);
+              setGoalsError?.(""); // Clear error on change
+            }}
+            maxLength={200}
           />
+          {goalsError && <p className="text-red-500 -mt-2">{goalsError}</p>}
         </div>
       </div>
     </div>
@@ -145,6 +259,7 @@ function SignUpModal({
   setUsername,
   password,
   setPassword,
+  error,
 }: {
   email: string;
   setEmail: (value: string) => void;
@@ -152,6 +267,10 @@ function SignUpModal({
   setUsername: (value: string) => void;
   password: string;
   setPassword: (value: string) => void;
+  error?: { email: string; username: string; password: string } | null;
+  setError?: (
+    value: { email: string; username: string; password: string } | null
+  ) => void;
 }) {
   return (
     <div className="flex flex-col">

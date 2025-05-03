@@ -4,6 +4,7 @@ import { useState } from "react";
 import { images } from "@/assets/images";
 import OnboardingModal from "@/app/ui/components/Onboarding";
 import MusicPlayer from "./ui/components/MusicPlayer";
+import LoginModal from "./ui/components/LoginModal";
 
 const backgrounds = [
   { key: "default", label: "Beach Day" },
@@ -16,6 +17,7 @@ const backgrounds = [
 export default function Home() {
   const [selectedBackground, setSelectedBackground] = useState("default");
   const [animationState, setAnimationState] = useState("initial"); // initial, fadeButton, slideText, fadeText, showQuestions
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const jottyText = "jotty";
 
   const handleBackgroundChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -35,6 +37,14 @@ export default function Home() {
         }, 800); // Wait for text to fade before showing questions
       }, 700); // Wait for text slide before starting fade
     }, 500); // Wait for button to fade before sliding text
+  };
+
+  const openLoginModal = () => {
+    setIsLoginModalOpen(true);
+  };
+
+  const closeLoginModal = () => {
+    setIsLoginModalOpen(false);
   };
 
   // Determine which background image to use
@@ -106,18 +116,26 @@ export default function Home() {
           </div>
 
           {/* "lets go" button with fade out */}
-          <button
-            onClick={handleButtonClick}
-            className={`select-none mt-8 px-8 py-2 border border-black bg-spring rounded-xl text-2xl 
+          {animationState === "initial" && (
+            <div className="flex flex-col items-center">
+              <button
+                onClick={handleButtonClick}
+                className={`mt-8 px-8 py-2 border border-black bg-spring rounded-xl text-2xl 
                       text-[#1E1E1E] font-semibold shadow-lg hover:bg-honey 
-                      transition-all duration-500 hover:cursor-pointer ${
-                        animationState !== "initial"
-                          ? "opacity-0"
-                          : "opacity-100"
-                      }`}
-          >
-            lets go
-          </button>
+                      transition-all duration-500 hover:cursor-pointer`}
+              >
+                lets go
+              </button>
+
+              <button
+                onClick={openLoginModal}
+                className="mt-4 px-6 py-1.5 border border-caramel bg-spring text-caramel rounded-xl 
+                        hover:bg-honey  transition-all duration-300 text-lg"
+              >
+                login
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Questions div that appears after animations */}
@@ -163,6 +181,9 @@ export default function Home() {
           </select>
         </div>
       </div>
+
+      {/* Login Modal */}
+      <LoginModal isOpen={isLoginModalOpen} onClose={closeLoginModal} />
     </div>
   );
 }
