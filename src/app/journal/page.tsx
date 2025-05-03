@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
-import JournalClient from "@/app/journal/client/page";
+import JournalClient from "@/app/journal/client/JournalClient";
 
 export default async function Journal() {
   const supabase = await createClient(); // Initialize Supabase client
