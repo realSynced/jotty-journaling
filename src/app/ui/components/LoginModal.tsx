@@ -24,20 +24,26 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
     setLoading(true);
 
     try {
-      if (isSignUp) {
-        // For sign up, just close the modal for now
-        // You can add more logic here later
-        onClose();
+      // For login, use the server action
+      const response = await login(undefined, email, password);
+      console.log("Response: ", response);
+
+      if (response.toString().includes("Invalid")) {
+        setError(response);
+        setLoading(false);
+        return;
+      } else if (response === "DNE") {
+        setError("User does not exist. Please sign up first.");
+        setLoading(false);
         return;
       }
 
-      // For login, use the server action
-      await login(undefined, email, password);
-
       // If we got here, login was successful
-      setLoading(false);
-      router.refresh();
-      onClose();
+      if (!response) {
+        setLoading(false);
+        router.refresh();
+        onClose();
+      }
     } catch (err: any) {
       setError(err.message || "Authentication failed");
       setLoading(false);
@@ -80,11 +86,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
           >
             {isSignUp ? "Create Account" : "Welcome Back"}
           </h2>
-          <p className="mt-2 text-gray-600">
-            {isSignUp
-              ? "Sign up to start journaling with Jotty"
-              : "Sign in to continue your journaling practice"}
-          </p>
+          <p className="mt-2 text-gray-600">Sign in to continue journaling</p>
         </div>
 
         {/* Form */}
@@ -139,7 +141,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-caramel text-white font-semibold rounded-lg hover:bg-opacity-90 transition-colors shadow-md disabled:opacity-70"
+            className="cursor-pointer w-full py-3 bg-caramel hover:bg-caramel/75 text-white font-semibold rounded-lg hover:bg-opacity-90 transition-colors shadow-md disabled:opacity-70"
           >
             {loading ? (
               <span className="flex items-center justify-center">
@@ -166,7 +168,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                 Processing...
               </span>
             ) : (
-              <span>{isSignUp ? "Sign Up" : "Sign In"}</span>
+              <span>Sign In</span>
             )}
           </button>
 

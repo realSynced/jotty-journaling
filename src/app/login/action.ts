@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/server";
 import { updateProfile, insertUserDataPoints } from "@/backend/lib/api/profile";
+import { initializeQuotas } from "@/backend/lib/api/quotas";
+import { checkUserExists } from "@/backend/lib/auth/user";
 
 export async function login(
   formData?: FormData,
@@ -21,10 +23,21 @@ export async function login(
     password: (formData?.get("password") as string) || (password as string),
   };
 
+  const userExists = await checkUserExists(data.email);
+  if (!userExists) {
+    console.error("User does not exist:", data.email);
+    return "DNE"; // User does not exist
+  }
+
   const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
-    redirect("/error");
+    if (error.code === "invalid_credentials") {
+      return "Invalid email or password. Please try again.";
+    }
+    console.error("Login failed:", error);
+    return error.message || "Login failed. Please try again.";
+    // redirect("/error");
   }
 
   revalidatePath("/", "layout");
@@ -70,6 +83,7 @@ export async function signup(
 
   await updateProfile(user?.id!, { username });
   await insertUserDataPoints(user?.id!, interests || "", goals || "");
+  initializeQuotas(user?.id!, {});
 
   revalidatePath("/", "layout");
   redirect("/journal");

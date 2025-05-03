@@ -10,22 +10,22 @@
 
 :root {
   /* Jotty color palette */
-  --jotty-sage: #ccd5ae;
-  --jotty-spring: #e9edc9;
-  --jotty-spring-dark: #b2b59b;
-  --jotty-cream: #fefae0;
-  --jotty-honey: #faedcd;
-  --jotty-caramel: #d4a373;
+  --color-sage: #ccd5ae;
+  --color-spring: #e9edc9;
+  --color-spring-dark: #b2b59b;
+  --color-cream: #fefae0;
+  --color-honey: #faedcd;
+  --color-caramel: #d4a373;
 
   /* Primary theme colors */
   --background: var(--jotty-cream);
   --foreground: #171717;
 
   /* Component specific colors */
-  --accent-bg: var(--jotty-spring);
-  --accent-highlight: var(--jotty-sage);
-  --button-primary: var(--jotty-caramel);
-  --card-bg: var(--jotty-honey);
+  --accent-bg: var(--spring);
+  --accent-highlight: var(--sage);
+  --button-primary: var(--caramel);
+  --card-bg: var(--honey);
 
   /* Font family */
   --font-itim: "Itim", cursive;
@@ -40,4 +40,45 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-itim);
+}
+
+.glassmorphism {
+  /* From https://css.glass */
+  background: rgba(254, 250, 224, 0.47);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4.9px);
+  -webkit-backdrop-filter: blur(4.9px);
+  border: 1px solid rgba(254, 250, 224, 1);
+}
+
+.glassmorphism2 {
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+  scrollbar-color: transparent;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-spring) transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: var(--color-spring);
 }
