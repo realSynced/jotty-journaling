@@ -176,8 +176,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             <button
               type="button"
               onClick={() => {
-                setIsSignUp(!isSignUp);
-                setError(null);
+                onClose();
               }}
               className="ml-2 text-caramel hover:underline focus:outline-none"
             >
